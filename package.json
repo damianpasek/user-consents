@@ -7,7 +7,7 @@
   "license": "ISC",
   "scripts": {
     "build": "tsc --outDir dist",
-    "dev": "tsc && concurrently -r \"nodemon dist/index.js\" \"tsc -w --project tsconfig.json\"",
+    "dev": "tsc --noUnusedLocals false --noUnusedParameters false && concurrently -r \"nodemon dist/index.js\" \"tsc -w --project tsconfig.json\"",
     "lint": "eslint src --ext ts,js",
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo",
@@ -19,7 +19,9 @@
     "express-async-errors": "^3.1.1",
     "express-validator": "^6.10.0",
     "mysql2": "^2.2.5",
-    "sequelize": "^6.6.2"
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.6.2",
+    "sequelize-typescript": "^2.1.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",

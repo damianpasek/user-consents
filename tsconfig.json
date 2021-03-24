@@ -11,6 +11,9 @@
       "resolveJsonModule": true,
       "sourceMap": true,
       "outDir": "dist",
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "strictPropertyInitialization": false,
       "baseUrl": ".",
       "lib": [
         "es7",

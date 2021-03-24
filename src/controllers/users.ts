@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { createUser, findUserById, removeUser } from '../repositories/users'
 
-export const getUserController = async (req: Request, res: Response) => {
+export const getUserController = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params
 
   const user = await findUserById(Number(id))
@@ -9,7 +9,7 @@ export const getUserController = async (req: Request, res: Response) => {
   res.json(user)
 }
 
-export const createUserController = async (req: Request, res: Response) => {
+export const createUserController = async (req: Request, res: Response): Promise<void> => {
   const { email } = req.body
 
   const user = await createUser({ email })
@@ -17,7 +17,7 @@ export const createUserController = async (req: Request, res: Response) => {
   res.json(user)
 }
 
-export const removeUserController = async (req: Request, res: Response, _next: any) => {
+export const removeUserController = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params
 
   await removeUser(Number(id))

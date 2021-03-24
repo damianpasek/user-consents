@@ -1,6 +1,6 @@
-import Sequelize, { Optional, Model } from 'sequelize'
-import sequelize from '../config/db'
-import { enumToArray } from '../utils/enumToArray'
+import { Table, Column, Model, ForeignKey, BelongsTo, PrimaryKey } from 'sequelize-typescript'
+
+import User from './User'
 
 export enum EEventType {
   SMSNotification = 'sms_notification',
@@ -8,43 +8,36 @@ export enum EEventType {
 }
 
 export interface IEvent {
-  id: EEventType
+  type: EEventType
   user_id: number
   enabled: boolean
 }
 
-export interface IEventCreateOptions extends Optional<IEvent, 'id'> {}
+export interface IEventCreateOptions extends IEvent {}
 
-class Event extends Model<IEvent, IEventCreateOptions> implements IEvent {
-  public id!: EEventType
-  public user_id!: number
-  public enabled!: boolean
-
-  public readonly createdAt!: Date
-  public readonly updatedAt!: Date
-  public readonly deletedAt!: Date
-}
-
-Event.init({
-  id: {
-    type: Sequelize.ENUM,
-    values: enumToArray(EEventType),
-    allowNull: false,
-  },
-  user_id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  enabled: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
-  },
-}, {
-  tableName: 'users',
+@Table({
+  tableName: 'events',
   underscored: true,
   timestamps: true,
   paranoid: true,
-  sequelize,
 })
+class Event extends Model<IEvent, IEventCreateOptions> {
+  @PrimaryKey
+  @Column
+  id: number
+
+  @Column
+  type: EEventType
+
+  @ForeignKey(() => User)
+  @Column
+  user_id: number
+
+  @Column
+  enabled: boolean
+
+  @BelongsTo(() => User, 'user_id')
+  user: User
+}
 
 export default Event

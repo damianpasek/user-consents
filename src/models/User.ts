@@ -1,39 +1,41 @@
-import Sequelize, { Optional, Model } from 'sequelize'
-import sequelize from '../config/db'
+import { Optional } from 'sequelize'
+import { Table, Column, Model, PrimaryKey, HasMany, DefaultScope } from 'sequelize-typescript'
+
+import Event from './Event'
 
 export interface IUser {
   id: number
   email: string
+  consents: Event[]
 }
 
-export interface IUserCreateOptions extends Optional<IUser, 'id'> {}
+export interface IUserCreateOptions extends Optional<IUser, 'id' | 'consents'> {}
 
-class User extends Model<IUser, IUserCreateOptions> implements IUser {
-  public id!: number
-  public email!: string
-
-  public readonly createdAt!: Date
-  public readonly updatedAt!: Date
-  public readonly deletedAt!: Date
-}
-
-User.init({
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  email: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique: true,
-  },
-}, {
+@DefaultScope(() => ({
+  include: [
+    {
+      model: Event,
+      as: 'consents',
+      attributes: ['type', 'enabled'],
+    },
+  ],
+}))
+@Table({
   tableName: 'users',
   underscored: true,
   timestamps: true,
   paranoid: true,
-  sequelize,
 })
+class User extends Model<IUser, IUserCreateOptions> {
+  @PrimaryKey
+  @Column
+  id: number
+
+  @Column
+  email: string
+
+  @HasMany(() => Event)
+  consents: Event[]
+}
 
 export default User

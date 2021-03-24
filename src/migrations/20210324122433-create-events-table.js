@@ -2,6 +2,11 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('events', {
       id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      type: {
         type: Sequelize.ENUM,
         values: ['sms_notification', 'email_notification'],
         allowNull: false,
