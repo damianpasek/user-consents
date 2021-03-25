@@ -1,6 +1,6 @@
 module.exports = {
   development: {
-    url: 'mysql://user_consents:user_consents@127.0.0.1:3306/user_consents',
+    url: process.env.DATABASE_URL || 'mysql://user_consents:user_consents@127.0.0.1:3306/user_consents',
     dialect: 'mysql',
   },
   test: {

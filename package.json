@@ -12,7 +12,8 @@
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo",
     "migrate:create": "sequelize migration:generate",
-    "test": "TZ=UTC jest ."
+    "test": "TZ=UTC jest .",
+    "start": "node dist/index"
   },
   "dependencies": {
     "express": "^4.17.1",

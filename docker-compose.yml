@@ -1,6 +1,17 @@
 version: '3.5'
 
 services:
+  application:
+    build: .
+    image: app
+    command: sh -c "yarn migrate && yarn start"
+    ports:
+      - 4000:4000
+    environment:
+      DATABASE_URL: mysql://user_consents:user_consents@mysql:3306/user_consents
+    depends_on:
+      mysql:
+        condition: service_healthy
   mysql:
     image: mysql:8.0.15
     ports:
@@ -13,6 +24,10 @@ services:
       MYSQL_DATABASE: user_consents
       MYSQL_USER: user_consents
       MYSQL_PASSWORD: user_consents
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
 
 volumes:
   mysql-volume:
