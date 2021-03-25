@@ -11,9 +11,9 @@ const routes = (app: Router) => {
     [
       body('email')
         .isString()
-        .withMessage('isRequired')
+        .withMessage('Email is required')
         .isEmail()
-        .withMessage('isNotEmail')
+        .withMessage('Value is not an email')
         .custom(isEmailTaken),
       checkValidationErrors(422),
     ],

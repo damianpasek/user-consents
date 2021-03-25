@@ -20,7 +20,7 @@ export const createUserController = async (req: Request, res: Response): Promise
 export const removeUserController = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params
 
-  await removeUser(Number(id))
+  await removeUser(+id)
 
   res.json({ success: true })
 }
