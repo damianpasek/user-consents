@@ -94,7 +94,7 @@ describe('Routes: users', () => {
 
   describe('DELETE /users/:id', () => {
     it('should remove user when it exists', async () => {
-      // we cannot use User.count() cause Sequelize has bug with counting with associations
+      // we cannot use User.count() cause Sequelize has bug when counting with associations
       expect((await User.findAll()).length).toBe(2)
 
       const { body, status } = await request(app).delete('/users/1')

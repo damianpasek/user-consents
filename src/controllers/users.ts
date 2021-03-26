@@ -4,7 +4,7 @@ import { createUser, findUserById, removeUser } from '../repositories/users'
 export const getUserController = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params
 
-  const user = await findUserById(Number(id))
+  const user = await findUserById(+id)
 
   res.json(user)
 }

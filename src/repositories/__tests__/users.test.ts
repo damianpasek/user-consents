@@ -65,5 +65,9 @@ describe('Repositories: users', () => {
       expect(await User.count()).toBe(1)
       expect(await User.count({ paranoid: false })).toBe(2)
     })
+
+    it('should throw NotFoundError when user was not found', async () => {
+      await expect(removeUser(100)).rejects.toThrow(NotFoundError)
+    })
   })
 })
